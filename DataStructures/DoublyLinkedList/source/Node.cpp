@@ -1,5 +1,11 @@
 #include "../include/Node.h"
 
+template <class T> Node<T>::Node()
+{
+    this->prev = nullptr;
+    this->next = nullptr;
+}
+
 template <class T> Node<T>::Node(T data)
 {
     this->data = data;

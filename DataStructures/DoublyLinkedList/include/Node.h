@@ -3,6 +3,7 @@ template <class T> class Node
   public:
     
     //!Constructors
+    Node();
     Node(T data);
     Node(T data, T *prev, T *next);
 

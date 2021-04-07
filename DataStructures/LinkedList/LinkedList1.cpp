@@ -1,6 +1,7 @@
 #include "Node.cpp"
 #include <iostream>
 #include <map>
+#include <system_error>
 
 using namespace std;
 
@@ -88,52 +89,6 @@ class LinkedList
         }
     }
 
-    void palindrome()
-    {
-        if (first->count % 2 != 0)
-        {
-            std::cout << "Not a Palindrome\n";
-            return;
-        }
-
-        int *arr = new int[first->count];
-        int count = 0;
-
-        for (Node *i = first->next; i != NULL; i = i->next, count++)
-        {
-            arr[count] = i->data;
-        }
-
-        for (int i = 0, j = count; i <= count / 2; i++, j--)
-        {
-            std::cout << arr[i] << " " << arr[j] << "\n";
-            if (arr[i] != arr[j])
-            {
-                std::cout << "Not a Palindrome\n";
-                return;
-            }
-        }
-        std::cout << "Palindrome\n";
-    }
-
-    void pair()
-    {
-        for (Node *i = first->next; i->next != nullptr;)
-        {
-            std::cout << i->data << " ";
-            i = i->next;
-            std::cout << i->data << "\n";
-        }
-    }
-
-	void deleteNegative(){
-
-	}
-
-	void addArray(){
-		
-	}
-
     void swap(Node *t1, Node *t2)
     {
         int temp = t1->data;
@@ -168,23 +123,97 @@ class LinkedList
             cout << t->data << ' ';
         cout << '\n';
     }
+
+    bool printKthPositiveNode(int k, int run, Node *node)
+    {
+        if (node == NULL)
+        {
+            return false;
+        }
+
+        if (node->data >= 0)
+        {
+            run++;
+        }
+
+        if (k == run)
+        {
+            std::cout << node->data << '\n';
+            return true;
+        }
+
+        return printKthPositiveNode(k, run, node->next);
+    }
+
+    bool printKthPositiveNode(int k)
+    {
+        return printKthPositiveNode(k, 0, first->next);
+    }
+
+    bool isSumEqual(Node *node, int n, int sum)
+    {
+        if (node == NULL)
+        {
+            return false;
+        }
+
+        sum = sum + node->data;
+
+        if (n == sum)
+        {
+            return true;
+        }
+
+        if (isSumEqual(node->next, n, sum))
+        {
+            return true;
+        }
+
+        for (int i = 0; i < 100; i++)
+        {
+            if (node->next != NULL)
+            {
+                node = node->next;
+                if (isSumEqual(node, n, sum))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    bool isSumEqual(int n)
+    {
+        Node *node = first;
+        for (int i = 0; i < 100; i++)
+        {
+            if(node->next != NULL){
+                node = node->next;
+                if(isSumEqual(node, n, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 };
 
 int main()
 {
     LinkedList list;
-    list.addNodeAtEnd(1);
-    list.addNodeAtEnd(2);
-    list.addNodeAtEnd(2);
-    list.show();
-    list.addNodeAtEnd(1);
-    list.show();
-    // list.bubbleSort();
-    // list.selectionSort();
+    list.addNodeAtEnd(23);
+    list.addNodeAtEnd(59);
+    list.addNodeAtEnd(37);
     // list.show();
-    list.splitNode();
+    list.addNodeAtEnd(46);
+    list.addNodeAtEnd(64);
+    list.addNodeAtEnd(29);
+    // list.addNodeAtEnd(29);
+    // list.addNodeAtEnd(30);
     list.show();
-    list.palindrome();
-	list.pair();
+    std::cout << list.printKthPositiveNode(3) << '\n';
+    std::cout << list.isSumEqual(123);
     return 0;
 }
